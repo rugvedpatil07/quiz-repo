@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id       Int       @id @default(autoincrement())
+  name     String
+  email    String    @unique
+  password String
+  image    String?
+  bio      String?
+  quizzes  Quiz[]
+  attempts Attempt[]
+  hostedLobbies Lobby[]
+}
+
+model Quiz {
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String
+  category    String?
+  subcategory String?
+  creatorId   Int
+  creator     User       @relation(fields: [creatorId], references: [id])
+  questions   Question[]
+  attempts    Attempt[]
+  lobbies     Lobby[]
+  timeLimit   Int?       // Optional time limit in seconds
+  createdAt   DateTime   @default(now())
+}
+
+model Question {
+  id       Int      @id @default(autoincrement())
+  text       String
+  imageUrl   String?
+  timeLimit  Int?
+  quizId     Int
+  quiz     Quiz     @relation(fields: [quizId], references: [id])
+  options  Option[]
+}
+
+model Option {
+  id         Int      @id @default(autoincrement())
+  text       String
+  isCorrect  Boolean  @default(false)
+  questionId Int
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+}
+
+model Attempt {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  quizId    Int
+  quiz      Quiz     @relation(fields: [quizId], references: [id])
+  score     Int
+  createdAt DateTime @default(now())
+  answers   AttemptAnswer[]
+}
+
+model AttemptAnswer {
+  id         Int      @id @default(autoincrement())
+  attemptId  Int
+  attempt    Attempt  @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  questionId Int
+  optionId   Int?     // Optional in case of timeout
+}
+
+model Lobby {
+  id                  Int           @id @default(autoincrement())
+  pin                 String        @unique // 6-digit PIN
+  quizId              Int
+  quiz                Quiz          @relation(fields: [quizId], references: [id])
+  hostId              Int
+  host                User          @relation(fields: [hostId], references: [id])
+  state               String        @default("WAITING") // WAITING, QUESTION, LEADERBOARD, FINISHED
+  currentQuestionIndex Int          @default(0)
+  questionStartTime   DateTime?     
+  createdAt           DateTime      @default(now())
+  players             LobbyPlayer[]
+}
+
+model LobbyPlayer {
+  id        Int      @id @default(autoincrement())
+  lobbyId   Int
+  lobby     Lobby    @relation(fields: [lobbyId], references: [id], onDelete: Cascade)
+  nickname  String
+  score     Int      @default(0)
+  joinedAt  DateTime @default(now())
+  hasAnsweredCurrent Boolean @default(false)
+
+  @@unique([lobbyId, nickname])
+}
