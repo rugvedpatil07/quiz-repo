@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { PremiumBackground } from "@/components/PremiumBackground";
+import { MatrixRain } from "@/components/MatrixRain";
 
 export default function PlayerController() {
   const params = useParams();
