@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 import { NextAuthOptions } from "next-auth";
 
 export const authOptions: NextAuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET || "fallback-secret-for-development-only-replace-in-production-environments-with-real-key-123456789",
   session: {
     strategy: "jwt",
   },
