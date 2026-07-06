@@ -1,0 +1,70 @@
+{
+  "users": [
+    {
+      "id": "mock-id-1783274301857",
+      "name": "ram",
+      "email": "dcpatil8806@gmail.com",
+      "password": "$2b$10$uJ6O/3Hjl5MXvhC6uqjP5.7V/Wi9WIWQCe.ZDDxYdNNaXlJzHQIT.",
+      "role": "USER"
+    },
+    {
+      "id": "mock-id-1783274659714",
+      "name": "sham",
+      "email": "dcpatil8809@gmail.com",
+      "password": "$2b$10$tDXxljK/Lz.4TNu0ZuC7CeX7JOFbnw8Zm89Im3UDfJ.I6VW4JE/J.",
+      "role": "USER"
+    },
+    {
+      "id": "mock-id-1783274927882",
+      "name": "mama",
+      "email": "dcpatil8802@gmail.com",
+      "password": "$2b$10$t/VAqIBQ2KPZo8Li0fFve.zJ/SuFuEp7sddb1o6bPD5KXQIPSHYS.",
+      "role": "USER"
+    },
+    {
+      "id": "mock-id-1783275285139",
+      "emailVerified": false,
+      "name": "ramsham",
+      "email": "dcpatil88022@gmail.com",
+      "password": "$2b$10$H0YC1BwYylwSptD7gWweMO.ySD/WmuT3T1H9vXmVTnA4628NzTYJq",
+      "role": "USER",
+      "verificationToken": "1092c46a-60e0-4504-afd6-f648d1d94c9b"
+    },
+    {
+      "id": "mock-id-1783275406689",
+      "emailVerified": false,
+      "name": "manman",
+      "email": "elexas.sorensen@allwebemails.com",
+      "password": "$2b$10$fMI.DEyFqEhW6TlOB2MsfejX9ZgdAHqNbRAdI5vnoHTGKHp2ibIKK",
+      "role": "USER",
+      "verificationToken": "a1db71a9-e806-4df8-bf34-9e2c800312fe"
+    },
+    {
+      "id": "mock-id-1783275501563",
+      "emailVerified": true,
+      "name": "vssbnbbj",
+      "email": "cikkilidri@necub.com",
+      "password": "$2b$10$uSsfsUZU1qCPFT/ZOeNzSeLcVeZHeU.poDSIYXYWYZoINOBRc7P0q",
+      "role": "USER",
+      "verificationToken": null
+    },
+    {
+      "id": "mock-id-1783276937791",
+      "emailVerified": false,
+      "email": "rugved035@gmail.com",
+      "name": "Rugved Patil",
+      "password": "",
+      "image": "https://lh3.googleusercontent.com/a/ACg8ocK4Tck-oCD9Q3_XxT16jRNKEfrPcni-h-r0Q96HWFKDDQ2IPIoj=s96-c",
+      "role": "USER"
+    },
+    {
+      "id": "mock-id-1783315442056",
+      "emailVerified": false,
+      "name": "testuser",
+      "email": "testuser123@gmail.com",
+      "password": "$2b$10$sZjA/BDs5fJFxQb.7NVEdOPOQxMa.gArHPpzUlP5IxwPXUDPXQZ0O",
+      "role": "USER",
+      "verificationToken": "c4c60d8b-50ff-467a-8b74-6ea021876c27"
+    }
+  ]
+}

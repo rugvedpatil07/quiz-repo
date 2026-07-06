@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { PremiumBackground } from "@/components/PremiumBackground";
 
 export default function PlayEntry() {
@@ -10,6 +11,17 @@ export default function PlayEntry() {
   const [nickname, setNickname] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
+  }, [status, router]);
+
+  if (status === "unauthenticated" || status === "loading") {
+    return null;
+  }
 
   const handleJoin = async (e: React.FormEvent) => {
     e.preventDefault();

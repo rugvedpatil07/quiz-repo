@@ -4,36 +4,51 @@ import bcrypt from "bcryptjs";
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const { name, email, password } = body;
+    let { name, email, password } = await req.json();
 
     if (!name || !email || !password) {
-      return new NextResponse("Missing fields", { status: 400 });
+      return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
     }
 
-    const exist = await prisma.user.findUnique({
-      where: {
-        email
-      }
+    email = email.toLowerCase();
+
+    // Strict Email Validation Regex
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json({ message: "Please enter a valid email address." }, { status: 400 });
+    }
+
+    // Block common fake/disposable email domains
+    const disposableDomains = ['tempmail.com', 'mailinator.com', '10minutemail.com', 'guerrillamail.com', 'yopmail.com', 'test.com', 'example.com', 'fake.com'];
+    const domain = email.split('@')[1].toLowerCase();
+    if (disposableDomains.includes(domain)) {
+      return NextResponse.json({ message: "Please use a real, permanent email address." }, { status: 400 });
+    }
+
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
     });
 
-    if (exist) {
-      return new NextResponse("Email already exists", { status: 400 });
+    if (existingUser) {
+      return NextResponse.json({ message: "User already exists" }, { status: 409 });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const verificationToken = crypto.randomUUID();
 
     const user = await prisma.user.create({
       data: {
         name,
         email,
-        password: hashedPassword
-      }
+        password: hashedPassword,
+        role: "USER",
+        verificationToken,
+      },
     });
 
-    return NextResponse.json(user);
+    return NextResponse.json({ message: "User created successfully", user }, { status: 201 });
   } catch (error) {
-    console.error("REGISTRATION_ERROR", error);
-    return new NextResponse("Internal Error", { status: 500 });
+    console.error("Registration error:", error);
+    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
   }
 }

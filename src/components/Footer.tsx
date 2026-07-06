@@ -57,8 +57,9 @@ export default function Footer() {
           </div>
         </div>
         
-        <div className="footer-bottom">
+        <div className="footer-bottom" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <p>&copy; {new Date().getFullYear()} QuizMaster. All rights reserved.</p>
+          <Link href="/admin" style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', textDecoration: 'none', transition: 'color 0.2s ease' }} onMouseOver={(e) => e.currentTarget.style.color = '#D4AF37'} onMouseOut={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}>Admin Portal</Link>
         </div>
       </div>
     </footer>

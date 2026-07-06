@@ -681,6 +681,9 @@ main {
   left: 50%;
   transform: translateX(-50%) translateY(10px);
   min-width: 220px;
+  max-height: 60vh;
+  overflow-y: auto;
+  overflow-x: hidden;
   background: #09090b; /* Match developer theme */
   border: 1px solid #1e293b;
   border-top: none;

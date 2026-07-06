@@ -55,7 +55,7 @@ export default function CategoryNav() {
               
               {/* Dropdown Menu */}
               {item.subItems && item.subItems.length > 0 && (
-                <div className={`nav-dropdown-menu ${activeDropdown === item.label ? 'show' : ''}`}>
+                <div className={`nav-dropdown-menu custom-scrollbar ${activeDropdown === item.label ? 'show' : ''}`}>
                   {item.subItems.map((sub, idx) => (
                     <Link key={idx} href={`/quizzes?category=${encodeURIComponent(item.label)}&subcategory=${encodeURIComponent(sub)}`} className="dropdown-item">{sub}</Link>
                   ))}
