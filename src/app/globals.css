@@ -1399,6 +1399,23 @@ main {
   .grid-cards {
     grid-template-columns: 1fr;
   }
+  /* Ensure buttons and inputs are easily tappable on Android */
+  .btn-primary, .btn-secondary, button {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem !important;
+  }
+
+  .form-input {
+    min-height: 48px;
+    font-size: 16px !important; /* Prevents iOS/Android auto-zoom on inputs */
+  }
+
+  .glass-panel {
+    padding: 1.25rem !important;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1406,4 +1423,11 @@ main {
     flex-direction: column;
     align-items: center;
   }
+  .heading-xl, h1 {
+    font-size: 1.8rem !important;
+  }
+  .heading-lg, h2 {
+    font-size: 1.4rem !important;
+  }
 }
+

@@ -361,12 +361,13 @@ export default function QuizClient({ quiz }: { quiz: any }) {
         .option-item {
           background: #f8fafc;
           border: 2px solid transparent;
-          border-radius: 10px;
-          padding: 1.25rem;
+          border-radius: 12px;
+          padding: 1.5rem;
           cursor: pointer;
           display: flex;
           align-items: center;
           gap: 1.25rem;
+          min-height: 72px; /* Large touch target for Android */
           transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
@@ -433,18 +434,32 @@ export default function QuizClient({ quiz }: { quiz: any }) {
         .btn-solid-blue {
           background: #3b82f6;
           color: white;
-          padding: 0.6rem 1.5rem;
-          border-radius: 8px;
+          padding: 0.8rem 1.5rem;
+          border-radius: 10px;
           font-weight: 600;
           cursor: pointer;
           transition: all 0.2s;
           border: none;
+          min-height: 48px; /* Touch target size */
           margin-left: auto;
         }
         .btn-solid-blue:hover {
           background: #2563eb;
           transform: translateY(-2px);
           box-shadow: 0 6px 15px rgba(59, 130, 246, 0.3);
+        }
+        
+        @media (max-width: 600px) {
+          .bottom-actions {
+            flex-direction: column;
+            gap: 0.8rem;
+          }
+          .btn-outline-red, .btn-outline-orange, .btn-solid-blue {
+            width: 100%;
+            margin-left: 0;
+            padding: 1rem;
+            text-align: center;
+          }
         }
         
         .btn-solid-red {
