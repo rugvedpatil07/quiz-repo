@@ -86,7 +86,6 @@ export default function QuizClient({ quiz }: { quiz: any }) {
       setShowConfirmModal(true);
       return;
     }
-    setShowConfirmModal(false);
     setSubmitting(true);
     try {
       const res = await fetch(`/api/quizzes/${quiz.id}/submit`, {
@@ -97,14 +96,17 @@ export default function QuizClient({ quiz }: { quiz: any }) {
 
       if (res.ok) {
         const data = await res.json();
-        router.refresh(); // Force Next.js to invalidate client-side cache
+        // Removed router.refresh() because the backend already calls revalidatePath
+        // which automatically invalidates the client cache safely!
         router.push(`/results/${data.attemptId}`);
       } else {
         const errData = await res.json().catch(() => null);
+        setShowConfirmModal(false);
         alert(errData?.error || "Failed to submit quiz");
       }
     } catch (err) {
       console.error(err);
+      setShowConfirmModal(false);
       alert("Error submitting quiz");
     } finally {
       setSubmitting(false);
@@ -727,22 +729,28 @@ export default function QuizClient({ quiz }: { quiz: any }) {
             </div>
             <h3 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>Submit Test?</h3>
             <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', fontSize: '1rem', lineHeight: '1.5' }}>
-              Are you sure you want to submit? You have answered {Object.keys(answers).length} out of {quiz.questions.length} questions. You won't be able to change your answers after submission.
+              {submitting 
+                ? "Please wait while we process your answers and calculate your score..." 
+                : `Are you sure you want to submit? You have answered ${Object.keys(answers).length} out of ${quiz.questions.length} questions. You won't be able to change your answers after submission.`
+              }
             </p>
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-              <button 
-                onClick={() => setShowConfirmModal(false)}
-                className="btn-secondary"
-                style={{ flex: 1, padding: '0.75rem' }}
-              >
-                Cancel
-              </button>
+              {!submitting && (
+                <button 
+                  onClick={() => setShowConfirmModal(false)}
+                  className="btn-secondary"
+                  style={{ flex: 1, padding: '0.75rem' }}
+                >
+                  Cancel
+                </button>
+              )}
               <button 
                 onClick={() => handleSubmit(true)}
+                disabled={submitting}
                 className="btn-primary"
-                style={{ flex: 1, padding: '0.75rem', background: '#3b82f6' }}
+                style={{ flex: submitting ? 'none' : 1, width: submitting ? '100%' : 'auto', padding: '0.75rem', background: submitting ? '#94a3b8' : '#3b82f6' }}
               >
-                Yes, Submit
+                {submitting ? "Submitting Test..." : "Yes, Submit"}
               </button>
             </div>
           </div>
