@@ -1,23 +1,4 @@
-import fs from 'fs';
-import path from 'path';
-
-const getDbPath = () => path.resolve(process.cwd(), 'mock-db.json');
-
-const loadDB = () => {
-  try {
-    const dbPath = getDbPath();
-    if (fs.existsSync(dbPath)) {
-      return JSON.parse(fs.readFileSync(dbPath, 'utf8'));
-    }
-  } catch (e) {}
-  return { users: [] };
-};
-
-const saveDB = (db: any) => {
-  try {
-    fs.writeFileSync(getDbPath(), JSON.stringify(db, null, 2));
-  } catch (e) {}
-};
+import { supabase } from './supabase';
 
 // Auto-assign IDs to questions/options that don't have them (fixes old quizzes)
 let idCounter = 100000;
@@ -45,125 +26,114 @@ const ensureQuizIds = (quiz: any) => {
 export const prisma = {
   user: {
     findMany: async () => {
-      const db = loadDB();
-      return db.users || [];
+      const { data } = await supabase.from('users').select('*');
+      return data || [];
     },
     findUnique: async (args: any) => {
-      const db = loadDB();
       if (args.where?.email) {
-        return db.users.find((u: any) => u.email === args.where.email) || null;
+        const { data } = await supabase.from('users').select('*').eq('email', args.where.email).single();
+        return data || null;
       }
       if (args.where?.verificationToken) {
-        return db.users.find((u: any) => u.verificationToken === args.where.verificationToken) || null;
+        const { data } = await supabase.from('users').select('*').eq('verificationToken', args.where.verificationToken).single();
+        return data || null;
+      }
+      if (args.where?.id) {
+        const { data } = await supabase.from('users').select('*').eq('id', args.where.id).single();
+        return data || null;
       }
       return null;
     },
     create: async (args: any) => {
-      const db = loadDB();
       const newUser = { 
         id: `mock-id-${Date.now()}`, 
         emailVerified: false,
         ...args.data 
       };
-      db.users.push(newUser);
-      saveDB(db);
-      return newUser;
+      const { data, error } = await supabase.from('users').insert(newUser).select().single();
+      if (error) console.error("Error creating user:", error);
+      return data || newUser;
     },
     update: async (args: any) => {
-      const db = loadDB();
-      const index = db.users.findIndex((u: any) => {
-        if (args.where?.id) return u.id === args.where.id;
-        if (args.where?.email) return u.email === args.where.email;
-        return false;
-      });
+      let query = supabase.from('users').update(args.data);
+      if (args.where?.id) query = query.eq('id', args.where.id);
+      else if (args.where?.email) query = query.eq('email', args.where.email);
       
-      if (index !== -1) {
-        db.users[index] = { ...db.users[index], ...args.data };
-        saveDB(db);
-        return db.users[index];
-      }
-      throw new Error("Record to update not found.");
+      const { data, error } = await query.select().single();
+      if (error) throw new Error("Record to update not found.");
+      return data;
     },
   },
   quiz: {
     findMany: async (args?: any) => {
-      const db = loadDB();
-      let quizzes = (db.quizzes || []).map(ensureQuizIds);
+      let query = supabase.from('quizzes').select('*');
 
       // Support basic where filtering
       if (args?.where) {
         const w = args.where;
-        quizzes = quizzes.filter((q: any) => {
-          if (w.category && q.category !== w.category) return false;
-          if (w.subcategory && q.subcategory !== w.subcategory) return false;
-          if (w.OR && Array.isArray(w.OR)) {
-            return w.OR.some((cond: any) => {
-              if (cond.title?.contains && q.title?.toLowerCase().includes(cond.title.contains.toLowerCase())) return true;
-              if (cond.description?.contains && q.description?.toLowerCase().includes(cond.description.contains.toLowerCase())) return true;
-              return false;
-            });
-          }
-          return true;
-        });
+        if (w.category) query = query.eq('category', w.category);
+        if (w.subcategory) query = query.eq('subcategory', w.subcategory);
       }
 
       // Support orderBy
       if (args?.orderBy?.createdAt === 'desc') {
-        quizzes.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        query = query.order('createdAt', { ascending: false });
       }
 
-      return quizzes;
+      const { data } = await query;
+      let quizzes = data || [];
+
+      // Handle OR queries in memory for simplicity since it's hard to map exactly
+      if (args?.where?.OR && Array.isArray(args.where.OR)) {
+        const w = args.where;
+        quizzes = quizzes.filter((q: any) => {
+          return w.OR.some((cond: any) => {
+            if (cond.title?.contains && q.title?.toLowerCase().includes(cond.title.contains.toLowerCase())) return true;
+            if (cond.description?.contains && q.description?.toLowerCase().includes(cond.description.contains.toLowerCase())) return true;
+            return false;
+          });
+        });
+      }
+
+      return quizzes.map(ensureQuizIds);
     },
     findUnique: async (args: any) => {
-      const db = loadDB();
       if (args.where?.id) {
-        const quiz = (db.quizzes || []).find((q: any) => q.id === args.where.id) || null;
-        return quiz ? ensureQuizIds(quiz) : null;
+        const { data } = await supabase.from('quizzes').select('*').eq('id', args.where.id).single();
+        return data ? ensureQuizIds(data) : null;
       }
       return null;
     },
     create: async (args: any) => {
-      const db = loadDB();
-      if (!db.quizzes) db.quizzes = [];
       const newQuiz = { 
         id: Date.now(), 
         createdAt: new Date().toISOString(),
         ...args.data 
       };
-      db.quizzes.push(newQuiz);
-      saveDB(db);
-      return newQuiz;
+      const { data, error } = await supabase.from('quizzes').insert(newQuiz).select().single();
+      if (error) console.error("Error creating quiz:", error);
+      return data || newQuiz;
     },
     update: async (args: any) => {
-      const db = loadDB();
-      if (!db.quizzes) db.quizzes = [];
-      const index = db.quizzes.findIndex((q: any) => q.id === args.where?.id);
-      
-      if (index !== -1) {
-        db.quizzes[index] = { ...db.quizzes[index], ...args.data };
-        saveDB(db);
-        return db.quizzes[index];
-      }
-      throw new Error("Record to update not found.");
+      if (!args.where?.id) throw new Error("No ID provided for update");
+      const { data, error } = await supabase.from('quizzes').update(args.data).eq('id', args.where.id).select().single();
+      if (error) throw new Error("Record to update not found.");
+      return data;
     },
   },
   attempt: {
     findUnique: async (args: any) => {
-      const db = loadDB();
       if (args.where?.id) {
-        const attempt = (db.attempts || []).find((a: any) => a.id === args.where.id) || null;
+        const { data: attempt } = await supabase.from('attempts').select('*').eq('id', args.where.id).single();
         if (attempt) {
-          attempt.quiz = (db.quizzes || []).find((q: any) => q.id === attempt.quizId) || null;
+          const { data: quiz } = await supabase.from('quizzes').select('*').eq('id', attempt.quizId).single();
+          attempt.quiz = quiz || null;
         }
-        return attempt;
+        return attempt || null;
       }
       return null;
     },
     create: async (args: any) => {
-      const db = loadDB();
-      if (!db.attempts) db.attempts = [];
-      
-      // For mock DB, we extract the nested answers creation
       const answersData = args.data.answers?.create || [];
       
       const newAttempt = { 
@@ -175,9 +145,9 @@ export const prisma = {
         answers: answersData
       };
       
-      db.attempts.push(newAttempt);
-      saveDB(db);
-      return newAttempt;
+      const { data, error } = await supabase.from('attempts').insert(newAttempt).select().single();
+      if (error) console.error("Error creating attempt:", error);
+      return data || newAttempt;
     }
   }
 } as any;
