@@ -19,6 +19,29 @@ const saveDB = (db: any) => {
   } catch (e) {}
 };
 
+// Auto-assign IDs to questions/options that don't have them (fixes old quizzes)
+let idCounter = 100000;
+const ensureQuizIds = (quiz: any) => {
+  if (!quiz.questions) return quiz;
+  const patched = { ...quiz };
+  patched.questions = patched.questions.map((q: any) => {
+    const patchedQ = { ...q };
+    if (!patchedQ.id) patchedQ.id = idCounter++;
+    if (patchedQ.options) {
+      patchedQ.options = patchedQ.options.map((o: any) => {
+        if (!o.id) return { ...o, id: idCounter++ };
+        return o;
+      });
+    }
+    return patchedQ;
+  });
+  // Ensure _count exists
+  if (!patched._count) {
+    patched._count = { questions: patched.questions.length };
+  }
+  return patched;
+};
+
 export const prisma = {
   user: {
     findMany: async () => {
@@ -63,14 +86,39 @@ export const prisma = {
     },
   },
   quiz: {
-    findMany: async () => {
+    findMany: async (args?: any) => {
       const db = loadDB();
-      return db.quizzes || [];
+      let quizzes = (db.quizzes || []).map(ensureQuizIds);
+
+      // Support basic where filtering
+      if (args?.where) {
+        const w = args.where;
+        quizzes = quizzes.filter((q: any) => {
+          if (w.category && q.category !== w.category) return false;
+          if (w.subcategory && q.subcategory !== w.subcategory) return false;
+          if (w.OR && Array.isArray(w.OR)) {
+            return w.OR.some((cond: any) => {
+              if (cond.title?.contains && q.title?.toLowerCase().includes(cond.title.contains.toLowerCase())) return true;
+              if (cond.description?.contains && q.description?.toLowerCase().includes(cond.description.contains.toLowerCase())) return true;
+              return false;
+            });
+          }
+          return true;
+        });
+      }
+
+      // Support orderBy
+      if (args?.orderBy?.createdAt === 'desc') {
+        quizzes.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      }
+
+      return quizzes;
     },
     findUnique: async (args: any) => {
       const db = loadDB();
       if (args.where?.id) {
-        return (db.quizzes || []).find((q: any) => q.id === args.where.id) || null;
+        const quiz = (db.quizzes || []).find((q: any) => q.id === args.where.id) || null;
+        return quiz ? ensureQuizIds(quiz) : null;
       }
       return null;
     },
