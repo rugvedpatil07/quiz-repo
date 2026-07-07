@@ -25,6 +25,7 @@ interface RecentAttempt {
   totalQuestions: number;
   xpEarned: number;
   date: string;
+  isRetake?: boolean;
 }
 
 interface AnalyticsData {
@@ -300,8 +301,13 @@ export default function Dashboard() {
                 gap: '0.5rem'
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.5rem' }}>
-                  <h4 style={{ fontWeight: 600, fontSize: '0.95rem', margin: 0, color: 'var(--text-primary)', lineHeight: 1.3 }}>
+                  <h4 style={{ fontWeight: 600, fontSize: '0.95rem', margin: 0, color: 'var(--text-primary)', lineHeight: 1.3, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     {attempt.quizTitle}
+                    {attempt.isRetake && (
+                      <span style={{ fontSize: '0.65rem', padding: '0.1rem 0.4rem', borderRadius: '4px', background: 'rgba(255, 255, 255, 0.1)', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                        Retake
+                      </span>
+                    )}
                   </h4>
                   <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
                     {new Date(attempt.date).toLocaleDateString()}
@@ -311,7 +317,7 @@ export default function Dashboard() {
                   <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
                     Score: {attempt.score}/{attempt.totalQuestions}
                   </span>
-                  <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--primary-color)' }}>
+                  <span style={{ fontSize: '0.85rem', fontWeight: 700, color: attempt.isRetake ? 'var(--text-muted)' : 'var(--primary-color)' }}>
                     +{attempt.xpEarned} XP
                   </span>
                 </div>

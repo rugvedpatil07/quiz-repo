@@ -39,10 +39,8 @@ export async function GET(req: Request) {
     const categoryStats: Record<string, { totalScore: number; maxScore: number; count: number }> = {};
     const timelineMap: Record<string, number> = {};
     
-    // Sort recent attempts descending (newest first)
-    const recentAttempts = [...firstAttempts].sort((a: any, b: any) => 
-      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    ).map((attempt: any) => {
+    // Calculate Official Stats from FIRST attempts only
+    firstAttempts.forEach((attempt: any) => {
       const quiz = attempt.quiz;
       const totalQuestions = quiz?._count?.questions || quiz?.questions?.length || 0;
       const xpEarned = attempt.score * 10;
@@ -63,6 +61,19 @@ export async function GET(req: Request) {
         categoryStats[quiz.category].maxScore += totalQuestions;
         categoryStats[quiz.category].count += 1;
       }
+    });
+
+    // Create Recent Activity from ALL attempts
+    // If it's the first attempt, XP is awarded. If it's a retake, XP is 0.
+    const recentAttempts = [...attempts].sort((a: any, b: any) => 
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    ).map((attempt: any) => {
+      const quiz = attempt.quiz;
+      const totalQuestions = quiz?._count?.questions || quiz?.questions?.length || 0;
+      
+      // Check if this specific attempt ID matches the first attempt ID for this quiz
+      const isFirstAttempt = firstAttemptsMap.get(attempt.quizId)?.id === attempt.id;
+      const xpEarned = isFirstAttempt ? attempt.score * 10 : 0;
 
       return {
         id: attempt.id,
@@ -70,7 +81,8 @@ export async function GET(req: Request) {
         score: attempt.score,
         totalQuestions,
         xpEarned,
-        date: attempt.createdAt
+        date: attempt.createdAt,
+        isRetake: !isFirstAttempt
       };
     });
 
