@@ -151,8 +151,14 @@ export const prisma = {
         subcategory: args.data.subcategory,
         timeLimit: args.data.timeLimit,
         questions: args.data.questions,
-        _count: args.data._count
+        _count: args.data._count,
+        creatorId: args.data.creatorId,
+        creator: args.data.creator
       };
+      
+      // Remove undefined fields
+      Object.keys(newQuiz).forEach(key => newQuiz[key as keyof typeof newQuiz] === undefined && delete newQuiz[key as keyof typeof newQuiz]);
+
       const { data, error } = await supabase.from('quizzes').insert(newQuiz).select().single();
       if (error) {
         console.error("Error creating quiz in Supabase:", error);
