@@ -4,6 +4,8 @@ import QuizClient from "./QuizClient";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
+export const dynamic = 'force-dynamic';
+
 export default async function TakeQuiz({ params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
   
@@ -30,17 +32,6 @@ export default async function TakeQuiz({ params }: { params: Promise<{ id: strin
 
   if (!quiz) {
     notFound();
-  }
-
-  const existingAttempt = await prisma.attempt.findFirst({
-    where: {
-      quizId: parseInt(id),
-      userId: (session.user as any).id
-    }
-  });
-
-  if (existingAttempt) {
-    redirect(`/results/${existingAttempt.id}`);
   }
 
   return (
