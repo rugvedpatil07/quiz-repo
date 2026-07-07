@@ -27,7 +27,7 @@ export default async function QuizResults({ params }: { params: Promise<{ id: st
     }
   });
 
-  if (!attempt || attempt.userId !== parseInt((session.user as any).id)) {
+  if (!attempt || String(attempt.userId) !== String((session.user as any).id)) {
     notFound();
   }
 
