@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 import { NextAuthOptions } from "next-auth";
 
 export const authOptions: NextAuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET || "super-secret-key-for-quiz-maker-12345",
   session: {
     strategy: "jwt",
   },
