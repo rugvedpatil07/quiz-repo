@@ -11,7 +11,7 @@ export default function AdminPasskey() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (passkey === "1804") {
+    if (passkey === "1819") {
       setError(false);
       setSuccess(true);
       // Set a cookie to remember the admin session

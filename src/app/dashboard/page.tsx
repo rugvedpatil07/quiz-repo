@@ -87,6 +87,8 @@ export default function Dashboard() {
 
   if (!data || data.totalAttempts === 0) {
     return (
+      <>
+
       <div className="container min-h-screen animate-fade-in-up" style={{ paddingTop: '4rem', paddingBottom: '4rem', maxWidth: '1000px', margin: '0 auto', textAlign: 'center' }}>
         <h1 className="heading-xl">Your Analytics Dashboard</h1>
         <div className="glass-panel" style={{ padding: '4rem 2rem', marginTop: '2rem' }}>
@@ -100,6 +102,7 @@ export default function Dashboard() {
           </Link>
         </div>
       </div>
+      </>
     );
   }
 
@@ -117,8 +120,11 @@ export default function Dashboard() {
   const xpProgress = getXPProgress(data.totalXP);
 
   return (
-    <div className="container min-h-screen animate-fade-in-up" style={{ paddingTop: '3rem', paddingBottom: '4rem', maxWidth: '1200px', margin: '0 auto' }}>
-      <div style={{ marginBottom: '2rem', display: 'flex', flexWrap: 'wrap', gap: '2rem', justifyContent: 'space-between', alignItems: 'center' }}>
+    <>
+
+
+      <div className="container min-h-screen animate-fade-in-up" style={{ paddingTop: '3rem', paddingBottom: '4rem', maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ marginBottom: '2rem', display: 'flex', flexWrap: 'wrap', gap: '2rem', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <h1 className="heading-xl" style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', borderRadius: '12px' }}>
@@ -318,5 +324,6 @@ export default function Dashboard() {
         </div>
       </div>
     </div>
+    </>
   );
 }

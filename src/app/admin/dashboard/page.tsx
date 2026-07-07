@@ -22,30 +22,7 @@ export default async function AdminDashboard() {
   return (
     <div className="container" style={{ paddingTop: '8rem', paddingBottom: '4rem', minHeight: '100vh', position: 'relative' }}>
       
-      {/* Premium Hey Admin Animation Overlay */}
-      <div className="admin-greeting-overlay" style={{
-        position: 'fixed',
-        inset: 0,
-        background: '#050505',
-        zIndex: 100,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        pointerEvents: 'none',
-        animation: 'fadeOutOverlay 1s ease 2s forwards'
-      }}>
-        <h1 style={{
-          fontSize: '4rem',
-          color: '#D4AF37',
-          letterSpacing: '5px',
-          textTransform: 'uppercase',
-          fontWeight: 800,
-          opacity: 0,
-          animation: 'slideUpText 1s ease 0.5s forwards'
-        }}>
-          Hey Admin
-        </h1>
-      </div>
+
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
         <div>
@@ -56,17 +33,6 @@ export default async function AdminDashboard() {
           PREMIUM PORTAL
         </div>
       </div>
-
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes slideUpText {
-          0% { transform: translateY(50px); opacity: 0; }
-          100% { transform: translateY(0); opacity: 1; }
-        }
-        @keyframes fadeOutOverlay {
-          0% { opacity: 1; }
-          100% { opacity: 0; visibility: hidden; }
-        }
-      `}} />
 
       <div className="glass-panel" style={{ padding: '2rem', borderRadius: '24px' }}>
         <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', fontWeight: 600 }}>Registered Users</h2>

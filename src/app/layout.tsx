@@ -22,6 +22,14 @@ export const metadata: Metadata = {
   description: "Create and join interactive quizzes live!",
 };
 
+import { Viewport } from "next";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{

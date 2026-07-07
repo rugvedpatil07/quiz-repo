@@ -15,7 +15,7 @@ export default function Home() {
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4rem', alignItems: 'center', width: '100%', margin: 'auto' }}>
           
           {/* Left Column: Hero Text */}
-          <div className="animate-fade-in-up" style={{ flex: '1 1 450px' }}>
+          <div className="animate-fade-in-up hero-col">
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.75rem', background: 'rgba(9, 9, 11, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.1)', padding: '0.5rem 1.25rem', borderRadius: '9999px', marginBottom: '2rem', boxShadow: '0 4px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1)' }}>
               <span style={{ display: 'flex', width: '8px', height: '8px', borderRadius: '50%', background: '#818cf8', boxShadow: '0 0 12px #818cf8' }}></span>
               <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#e2e8f0', letterSpacing: '0.02em' }}>QuizMaster 2.0 is Live</span>
@@ -51,8 +51,8 @@ export default function Home() {
           </div>
           
           {/* Right Column: Premium Floating Mockup */}
-          <div className="animate-fade-in-up delay-200" style={{ flex: '1 1 500px', position: 'relative', perspective: '1200px', display: 'flex', justifyContent: 'center' }}>
-            <div style={{ 
+          <div className="animate-fade-in-up delay-200 hero-col-right">
+            <div className="mockup-card" style={{ 
               transform: 'rotateY(-12deg) rotateX(6deg)', 
               boxShadow: '-30px 40px 100px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 0 40px rgba(255,255,255,0.05)',
               background: 'linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%)',
@@ -113,7 +113,7 @@ export default function Home() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '1.5rem', gridAutoRows: 'minmax(340px, auto)' }}>
           
           {/* Card 1: Multiplayer Mockup */}
-          <div style={{ gridColumn: 'span 12 / span 6', background: 'rgba(15, 23, 42, 0.4)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: '24px', padding: '3rem', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.1)' }}>
+          <div className="bento-card" style={{ background: 'rgba(15, 23, 42, 0.4)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: '24px', padding: '3rem', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.1)' }}>
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '100%', background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, transparent 50%)', zIndex: 0 }}></div>
             
             {/* Visual Detail: Floating Avatars/Players */}
@@ -136,7 +136,7 @@ export default function Home() {
           </div>
           
           {/* Card 3: Scoreboard Mockup */}
-          <div style={{ gridColumn: 'span 12 / span 6', background: 'rgba(15, 23, 42, 0.4)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: '24px', padding: '3rem', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.1)' }}>
+          <div className="bento-card" style={{ background: 'rgba(15, 23, 42, 0.4)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255, 255, 255, 0.05)', borderRadius: '24px', padding: '3rem', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.1)' }}>
              <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'radial-gradient(circle at center, rgba(56, 189, 248, 0.1) 0%, transparent 70%)', zIndex: 0 }}></div>
              
              {/* Visual Detail: Animated Bar Chart Mockup */}
@@ -171,7 +171,7 @@ export default function Home() {
           <p style={{ fontSize: '1.15rem', color: '#94a3b8', maxWidth: '600px', margin: '0 auto' }}>From creation to live gameplay in three simple steps.</p>
         </div>
         
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '4rem', position: 'relative' }}>
+        <div className="timeline-grid" style={{ position: 'relative' }}>
           
           {/* Connecting Line (Only visible on larger screens via flex magic, but we simulate it with background grid lines) */}
           <div style={{ position: 'absolute', top: '48px', left: '10%', right: '10%', height: '2px', background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%)', zIndex: -1 }}>

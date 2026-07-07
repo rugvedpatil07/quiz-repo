@@ -75,7 +75,7 @@ export default async function QuizResults({ params }: { params: Promise<{ id: st
 
         <div style={{ textAlign: 'left', marginTop: '2rem' }}>
           <h3 className="heading-md" style={{ marginBottom: '1.5rem', borderBottom: '1px solid var(--glass-border)', paddingBottom: '0.5rem' }}>Detailed Review</h3>
-          {attempt.quiz.questions.map((q, index) => {
+          {attempt.quiz.questions.map((q: any, index: number) => {
             const attemptAnswer = attempt.answers.find((a: any) => a.questionId === q.id);
             const selectedOptionId = attemptAnswer?.optionId;
             const correctOption = q.options.find((o: any) => o.isCorrect);

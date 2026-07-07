@@ -65,6 +65,285 @@
       "password": "$2b$10$sZjA/BDs5fJFxQb.7NVEdOPOQxMa.gArHPpzUlP5IxwPXUDPXQZ0O",
       "role": "USER",
       "verificationToken": "c4c60d8b-50ff-467a-8b74-6ea021876c27"
+    },
+    {
+      "id": "mock-id-1783429343622",
+      "emailVerified": false,
+      "name": "test3",
+      "email": "test3@gmail.com",
+      "password": "$2b$10$bB5j0xX7qGyhMnVGAp.er.j2UJTuquh8jthvtuDzXbx5WhSW3Bqiy",
+      "role": "USER",
+      "verificationToken": "8bee3dee-6f73-49b2-8744-73079d49e19b"
+    }
+  ],
+  "quizzes": [
+    {
+      "id": 1783408476983,
+      "createdAt": "2026-07-07T07:14:36.983Z",
+      "title": "Football Fundamentals Quiz",
+      "description": "Test your knowledge of the beautiful game with these 10 multiple-choice questions covering various aspects of football.",
+      "category": "Sports",
+      "subcategory": "Football",
+      "timeLimit": null,
+      "questions": [
+        {
+          "text": "Which country won the first-ever FIFA World Cup in 1930?",
+          "imageUrl": "",
+          "options": [
+            {
+              "text": "Brazil",
+              "isCorrect": false
+            },
+            {
+              "text": "Uruguay",
+              "isCorrect": true
+            },
+            {
+              "text": "Italy",
+              "isCorrect": false
+            },
+            {
+              "text": "Germany",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "text": "How many players are on a standard football team on the field at one time?",
+          "imageUrl": "",
+          "options": [
+            {
+              "text": "9",
+              "isCorrect": false
+            },
+            {
+              "text": "10",
+              "isCorrect": false
+            },
+            {
+              "text": "11",
+              "isCorrect": true
+            },
+            {
+              "text": "12",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "text": "What is the name of the international governing body of association football?",
+          "imageUrl": "",
+          "options": [
+            {
+              "text": "UEFA",
+              "isCorrect": false
+            },
+            {
+              "text": "FIFA",
+              "isCorrect": true
+            },
+            {
+              "text": "CONMEBOL",
+              "isCorrect": false
+            },
+            {
+              "text": "Premier League",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "text": "How long is a standard half in a professional football match?",
+          "imageUrl": "",
+          "options": [
+            {
+              "text": "30 minutes",
+              "isCorrect": false
+            },
+            {
+              "text": "40 minutes",
+              "isCorrect": false
+            },
+            {
+              "text": "45 minutes",
+              "isCorrect": true
+            },
+            {
+              "text": "60 minutes",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "text": "Which player has won the most Ballon d'Or awards?",
+          "imageUrl": "",
+          "options": [
+            {
+              "text": "Cristiano Ronaldo",
+              "isCorrect": false
+            },
+            {
+              "text": "Diego Maradona",
+              "isCorrect": false
+            },
+            {
+              "text": "Lionel Messi",
+              "isCorrect": true
+            },
+            {
+              "text": "Pelé",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "text": "What is the maximum number of substitutions allowed in a competitive match (excluding extra time)?",
+          "imageUrl": "",
+          "options": [
+            {
+              "text": "2",
+              "isCorrect": false
+            },
+            {
+              "text": "3",
+              "isCorrect": true
+            },
+            {
+              "text": "4",
+              "isCorrect": false
+            },
+            {
+              "text": "5",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "text": "Which famous stadium is home to FC Barcelona?",
+          "imageUrl": "",
+          "options": [
+            {
+              "text": "Santiago Bernabéu",
+              "isCorrect": false
+            },
+            {
+              "text": "Old Trafford",
+              "isCorrect": false
+            },
+            {
+              "text": "Allianz Arena",
+              "isCorrect": false
+            },
+            {
+              "text": "Camp Nou",
+              "isCorrect": true
+            }
+          ]
+        },
+        {
+          "text": "What is it called when a player scores three goals in a single match?",
+          "imageUrl": "",
+          "options": [
+            {
+              "text": "A brace",
+              "isCorrect": false
+            },
+            {
+              "text": "A hat-trick",
+              "isCorrect": true
+            },
+            {
+              "text": "A perfect game",
+              "isCorrect": false
+            },
+            {
+              "text": "A grand slam",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "text": "Which country is credited with inventing the modern game of football?",
+          "imageUrl": "",
+          "options": [
+            {
+              "text": "Brazil",
+              "isCorrect": false
+            },
+            {
+              "text": "France",
+              "isCorrect": false
+            },
+            {
+              "text": "England",
+              "isCorrect": true
+            },
+            {
+              "text": "Germany",
+              "isCorrect": false
+            }
+          ]
+        },
+        {
+          "text": "In a penalty shootout, how far is the penalty spot from the goal line?",
+          "imageUrl": "",
+          "options": [
+            {
+              "text": "8 yards",
+              "isCorrect": false
+            },
+            {
+              "text": "10 yards",
+              "isCorrect": false
+            },
+            {
+              "text": "12 yards",
+              "isCorrect": true
+            },
+            {
+              "text": "15 yards",
+              "isCorrect": false
+            }
+          ]
+        }
+      ],
+      "creatorId": "mock-id-1783276937791",
+      "creator": {
+        "name": "Rugved Patil"
+      },
+      "_count": {
+        "questions": 10
+      }
+    },
+    {
+      "id": 1783430220793,
+      "title": "Test Verification Quiz",
+      "description": "Testing end to end flow",
+      "questions": [
+        {
+          "id": 89522,
+          "text": "What is 1+1?",
+          "options": [
+            {
+              "id": 50366,
+              "text": "2",
+              "isCorrect": true
+            },
+            {
+              "id": 91265,
+              "text": "3",
+              "isCorrect": false
+            }
+          ]
+        }
+      ],
+      "creatorId": "mock-id-123",
+      "creator": {
+        "name": "System"
+      },
+      "_count": {
+        "questions": 1
+      }
     }
   ]
 }
