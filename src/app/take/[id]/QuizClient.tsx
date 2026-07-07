@@ -94,7 +94,8 @@ export default function QuizClient({ quiz }: { quiz: any }) {
         const data = await res.json();
         router.push(`/results/${data.attemptId}`);
       } else {
-        alert("Failed to submit quiz");
+        const errData = await res.json().catch(() => null);
+        alert(errData?.error || "Failed to submit quiz");
       }
     } catch (err) {
       console.error(err);
