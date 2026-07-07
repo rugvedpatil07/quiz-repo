@@ -53,11 +53,20 @@ export const prisma = {
       return data || null;
     },
     create: async (args: any) => {
-      const newUser = { 
+      const newUser: any = { 
         id: `mock-id-${Date.now()}`, 
         emailverified: false,
-        ...args.data 
+        email: args.data.email,
+        name: args.data.name,
+        image: args.data.image,
+        verificationToken: args.data.verificationToken,
+        password: args.data.password,
+        role: args.data.role,
+        bio: args.data.bio,
       };
+      
+      // Remove undefined fields
+      Object.keys(newUser).forEach(key => newUser[key] === undefined && delete newUser[key]);
       if (newUser.emailVerified !== undefined) {
         newUser.emailverified = newUser.emailVerified;
         delete newUser.emailVerified;
@@ -136,15 +145,38 @@ export const prisma = {
       const newQuiz = { 
         id: Date.now(), 
         createdAt: new Date().toISOString(),
-        ...args.data 
+        title: args.data.title,
+        description: args.data.description,
+        category: args.data.category,
+        subcategory: args.data.subcategory,
+        timeLimit: args.data.timeLimit,
+        questions: args.data.questions,
+        _count: args.data._count
       };
       const { data, error } = await supabase.from('quizzes').insert(newQuiz).select().single();
-      if (error) console.error("Error creating quiz:", error);
+      if (error) {
+        console.error("Error creating quiz in Supabase:", error);
+        throw new Error(error.message);
+      }
       return data || newQuiz;
     },
     update: async (args: any) => {
       if (!args.where?.id) throw new Error("No ID provided for update");
-      const { data, error } = await supabase.from('quizzes').update(args.data).eq('id', args.where.id).select().single();
+      
+      const updateData = {
+        title: args.data.title,
+        description: args.data.description,
+        category: args.data.category,
+        subcategory: args.data.subcategory,
+        timeLimit: args.data.timeLimit,
+        questions: args.data.questions,
+        _count: args.data._count
+      };
+      
+      // Remove undefined fields
+      Object.keys(updateData).forEach(key => updateData[key as keyof typeof updateData] === undefined && delete updateData[key as keyof typeof updateData]);
+
+      const { data, error } = await supabase.from('quizzes').update(updateData).eq('id', args.where.id).select().single();
       if (error) throw new Error("Record to update not found.");
       return data;
     },
