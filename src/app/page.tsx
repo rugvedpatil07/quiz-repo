@@ -1,14 +1,8 @@
 import Link from "next/link";
-import { HeroBackground } from "@/components/HeroBackground";
 
 export default function Home() {
   return (
     <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', minHeight: '100vh', overflowX: 'hidden' }}>
-      
-      {/* Background Layer */}
-      <div style={{ position: 'fixed', inset: 0, zIndex: -1 }}>
-        <HeroBackground />
-      </div>
       
       {/* 1. HERO SECTION */}
       <section className="container" style={{ position: 'relative', zIndex: 1, minHeight: 'calc(100vh - 80px)', display: 'flex', alignItems: 'center', paddingTop: '6rem', paddingBottom: '4rem' }}>
