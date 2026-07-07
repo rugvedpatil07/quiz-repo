@@ -32,6 +32,17 @@ export default async function TakeQuiz({ params }: { params: Promise<{ id: strin
     notFound();
   }
 
+  const existingAttempt = await prisma.attempt.findFirst({
+    where: {
+      quizId: parseInt(id),
+      userId: (session.user as any).id
+    }
+  });
+
+  if (existingAttempt) {
+    redirect(`/results/${existingAttempt.id}`);
+  }
+
   return (
     <div className="container min-h-screen" style={{ padding: '2rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <QuizClient quiz={quiz} />
