@@ -50,6 +50,9 @@ export default function CreateQuiz() {
             options: q.options || [{ text: "", isCorrect: true }, { text: "", isCorrect: false }]
           })));
         }
+        // Scroll down slightly and notify user, especially helpful on mobile
+        alert("Quiz generated successfully! Scroll down to review and submit.");
+        window.scrollBy({ top: 400, behavior: "smooth" });
       } else {
         alert("Error: " + (data.error || "Failed to generate"));
       }
@@ -88,8 +91,8 @@ export default function CreateQuiz() {
 
   const handleImageUpload = (qIndex: number, file: File) => {
     if (!file) return;
-    if (file.size > 2 * 1024 * 1024) { // 2MB limit
-      alert("Image is too large. Please upload an image smaller than 2MB.");
+    if (file.size > 500 * 1024) { // 500KB limit
+      alert("Image is too large. Please upload an image smaller than 500KB.");
       return;
     }
     const reader = new FileReader();
@@ -138,6 +141,7 @@ export default function CreateQuiz() {
 
       if (res.ok) {
         router.push("/quizzes");
+        router.refresh();
       } else {
         alert("Failed to create quiz");
       }

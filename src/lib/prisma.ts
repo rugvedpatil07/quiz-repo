@@ -63,7 +63,73 @@ export const prisma = {
     },
   },
   quiz: {
-    findMany: async () => [],
-    findUnique: async () => null,
+    findMany: async () => {
+      const db = loadDB();
+      return db.quizzes || [];
+    },
+    findUnique: async (args: any) => {
+      const db = loadDB();
+      if (args.where?.id) {
+        return (db.quizzes || []).find((q: any) => q.id === args.where.id) || null;
+      }
+      return null;
+    },
+    create: async (args: any) => {
+      const db = loadDB();
+      if (!db.quizzes) db.quizzes = [];
+      const newQuiz = { 
+        id: Date.now(), 
+        createdAt: new Date().toISOString(),
+        ...args.data 
+      };
+      db.quizzes.push(newQuiz);
+      saveDB(db);
+      return newQuiz;
+    },
+    update: async (args: any) => {
+      const db = loadDB();
+      if (!db.quizzes) db.quizzes = [];
+      const index = db.quizzes.findIndex((q: any) => q.id === args.where?.id);
+      
+      if (index !== -1) {
+        db.quizzes[index] = { ...db.quizzes[index], ...args.data };
+        saveDB(db);
+        return db.quizzes[index];
+      }
+      throw new Error("Record to update not found.");
+    },
+  },
+  attempt: {
+    findUnique: async (args: any) => {
+      const db = loadDB();
+      if (args.where?.id) {
+        const attempt = (db.attempts || []).find((a: any) => a.id === args.where.id) || null;
+        if (attempt) {
+          attempt.quiz = (db.quizzes || []).find((q: any) => q.id === attempt.quizId) || null;
+        }
+        return attempt;
+      }
+      return null;
+    },
+    create: async (args: any) => {
+      const db = loadDB();
+      if (!db.attempts) db.attempts = [];
+      
+      // For mock DB, we extract the nested answers creation
+      const answersData = args.data.answers?.create || [];
+      
+      const newAttempt = { 
+        id: Date.now(), 
+        createdAt: new Date().toISOString(),
+        userId: args.data.userId,
+        quizId: args.data.quizId,
+        score: args.data.score,
+        answers: answersData
+      };
+      
+      db.attempts.push(newAttempt);
+      saveDB(db);
+      return newAttempt;
+    }
   }
 } as any;
