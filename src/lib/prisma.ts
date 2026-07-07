@@ -27,40 +27,68 @@ export const prisma = {
   user: {
     findMany: async () => {
       const { data } = await supabase.from('users').select('*');
+      if (data) {
+        data.forEach(u => {
+          if (u.emailverified !== undefined) u.emailVerified = u.emailverified;
+        });
+      }
       return data || [];
     },
     findUnique: async (args: any) => {
+      let data = null;
       if (args.where?.email) {
-        const { data } = await supabase.from('users').select('*').eq('email', args.where.email).single();
-        return data || null;
+        const result = await supabase.from('users').select('*').eq('email', args.where.email).single();
+        data = result.data;
+      } else if (args.where?.verificationToken) {
+        const result = await supabase.from('users').select('*').eq('verificationToken', args.where.verificationToken).single();
+        data = result.data;
+      } else if (args.where?.id) {
+        const result = await supabase.from('users').select('*').eq('id', args.where.id).single();
+        data = result.data;
       }
-      if (args.where?.verificationToken) {
-        const { data } = await supabase.from('users').select('*').eq('verificationToken', args.where.verificationToken).single();
-        return data || null;
+      
+      if (data && data.emailverified !== undefined) {
+        data.emailVerified = data.emailverified;
       }
-      if (args.where?.id) {
-        const { data } = await supabase.from('users').select('*').eq('id', args.where.id).single();
-        return data || null;
-      }
-      return null;
+      return data || null;
     },
     create: async (args: any) => {
       const newUser = { 
         id: `mock-id-${Date.now()}`, 
-        emailVerified: false,
+        emailverified: false,
         ...args.data 
       };
+      if (newUser.emailVerified !== undefined) {
+        newUser.emailverified = newUser.emailVerified;
+        delete newUser.emailVerified;
+      }
+      
       const { data, error } = await supabase.from('users').insert(newUser).select().single();
       if (error) console.error("Error creating user:", error);
-      return data || newUser;
+      
+      const result = data || newUser;
+      if (result.emailverified !== undefined) {
+        result.emailVerified = result.emailverified;
+      }
+      return result;
     },
     update: async (args: any) => {
-      let query = supabase.from('users').update(args.data);
+      const updateData = { ...args.data };
+      if (updateData.emailVerified !== undefined) {
+        updateData.emailverified = updateData.emailVerified;
+        delete updateData.emailVerified;
+      }
+      
+      let query = supabase.from('users').update(updateData);
       if (args.where?.id) query = query.eq('id', args.where.id);
       else if (args.where?.email) query = query.eq('email', args.where.email);
       
       const { data, error } = await query.select().single();
       if (error) throw new Error("Record to update not found.");
+      
+      if (data.emailverified !== undefined) {
+        data.emailVerified = data.emailverified;
+      }
       return data;
     },
   },
