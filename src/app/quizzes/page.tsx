@@ -54,6 +54,23 @@ export default async function Quizzes({
     orderBy: { createdAt: 'desc' }
   });
 
+  // Fetch the first attempt scores for the logged-in user
+  let userFirstAttempts: Record<number, { score: number }> = {};
+  if (session?.user?.email) {
+    const user = await prisma.user.findUnique({ where: { email: session.user.email } });
+    if (user) {
+      const attempts = await prisma.attempt.findMany({
+        where: { userId: user.id },
+        orderBy: { createdAt: "asc" }
+      });
+      attempts.forEach((attempt: any) => {
+        if (!userFirstAttempts[attempt.quizId]) {
+          userFirstAttempts[attempt.quizId] = { score: attempt.score };
+        }
+      });
+    }
+  }
+
   return (
     <div className="container min-h-screen" style={{ padding: '2rem 1.5rem' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
@@ -96,7 +113,15 @@ export default async function Quizzes({
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
-                <span className="badge badge-primary">Quiz</span>
+                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <span className="badge badge-primary">Quiz</span>
+                  {userFirstAttempts[quiz.id] && (
+                    <span className="badge" style={{ background: 'rgba(34, 197, 94, 0.1)', color: '#4ade80', border: '1px solid rgba(34, 197, 94, 0.25)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      Score: {userFirstAttempts[quiz.id].score}/{quiz._count.questions}
+                    </span>
+                  )}
+                </div>
                 {quiz.timeLimit ? (
                   <span className="badge badge-outline" style={{ display: 'flex', gap: '0.4rem', alignItems: 'center' }}>
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
@@ -123,9 +148,13 @@ export default async function Quizzes({
                 </div>
               </div>
               <div style={{ display: 'flex', gap: '1rem' }}>
-                <Link href={`/take/${quiz.id}`} className="btn-primary" style={{ flex: 1, textAlign: 'center', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', padding: '0.8rem' }}>
-                  Solo
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                <Link href={`/take/${quiz.id}`} className={userFirstAttempts[quiz.id] ? "btn-secondary" : "btn-primary"} style={{ flex: 1, textAlign: 'center', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', padding: '0.8rem' }}>
+                  {userFirstAttempts[quiz.id] ? "Retake" : "Solo"}
+                  {userFirstAttempts[quiz.id] ? (
+                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><polyline points="3 3 3 8 8 8"></polyline></svg>
+                  ) : (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                  )}
                 </Link>
                 <div style={{ flex: 1 }}>
                   <HostLiveButton quizId={quiz.id} />
