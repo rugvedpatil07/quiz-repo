@@ -39,18 +39,6 @@ export async function POST(
       return NextResponse.json({ error: "No answers provided" }, { status: 400 });
     }
 
-    // Prevent multiple submissions
-    const existingAttempt = await prisma.attempt.findFirst({
-      where: {
-        quizId: quizId,
-        userId: user.id
-      }
-    });
-
-    if (existingAttempt) {
-      return NextResponse.json({ error: "You have already taken this quiz." }, { status: 400 });
-    }
-
     let score = 0;
     const answerRecords: any[] = [];
 
