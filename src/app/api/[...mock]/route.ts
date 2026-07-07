@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
-  if (url.pathname.includes('/leaderboard') || url.pathname.includes('/quizzes') || url.pathname.includes('/analytics')) {
+  if (url.pathname.includes('/leaderboard') || url.pathname.includes('/quizzes')) {
     return NextResponse.json([]);
   }
   if (url.pathname.includes('/profile')) {

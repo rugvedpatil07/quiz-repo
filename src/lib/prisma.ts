@@ -199,6 +199,39 @@ export const prisma = {
       }
       return null;
     },
+    findFirst: async (args: any) => {
+      let query = supabase.from('attempts').select('*');
+      if (args.where?.quizId) query = query.eq('quizId', args.where.quizId);
+      if (args.where?.userId) query = query.eq('userId', args.where.userId);
+      
+      const { data } = await query.limit(1).maybeSingle();
+      return data || null;
+    },
+    findMany: async (args: any) => {
+      let query = supabase.from('attempts').select('*');
+      if (args?.where?.userId) {
+        query = query.eq('userId', args.where.userId);
+      }
+      const { data } = await query;
+      let attempts = data || [];
+      
+      if (args?.include?.quiz) {
+        for (let attempt of attempts) {
+          const { data: quiz } = await supabase.from('quizzes').select('*').eq('id', attempt.quizId).single();
+          attempt.quiz = quiz || null;
+        }
+      }
+      
+      if (args?.orderBy?.createdAt) {
+        attempts.sort((a: any, b: any) => {
+          return args.orderBy.createdAt === 'desc' 
+            ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+        });
+      }
+      
+      return attempts;
+    },
     create: async (args: any) => {
       const answersData = args.data.answers?.create || [];
       
