@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 export async function POST(
   req: Request,
@@ -70,6 +71,11 @@ export async function POST(
         }
       }
     });
+
+    // Revalidate paths to ensure the UI updates without requiring a manual refresh
+    revalidatePath("/quizzes");
+    revalidatePath("/dashboard");
+    revalidatePath(`/results/${attempt.id}`);
 
     return NextResponse.json({ success: true, attemptId: attempt.id });
   } catch (error: any) {

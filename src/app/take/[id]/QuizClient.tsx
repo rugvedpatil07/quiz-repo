@@ -92,6 +92,7 @@ export default function QuizClient({ quiz }: { quiz: any }) {
 
       if (res.ok) {
         const data = await res.json();
+        router.refresh(); // Force Next.js to invalidate client-side cache
         router.push(`/results/${data.attemptId}`);
       } else {
         const errData = await res.json().catch(() => null);
