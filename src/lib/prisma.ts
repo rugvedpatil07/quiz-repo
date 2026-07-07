@@ -9,7 +9,10 @@ const ensureQuizIds = (quiz: any) => {
     const patchedQ = { ...q };
     if (!patchedQ.id) patchedQ.id = idCounter++;
     if (patchedQ.options) {
-      patchedQ.options = patchedQ.options.map((o: any) => {
+      patchedQ.options = patchedQ.options.map((o: any, idx: number) => {
+        if (typeof o === 'string') {
+          return { id: idCounter++, text: o, isCorrect: patchedQ.correctAnswer === idx };
+        }
         if (!o.id) return { ...o, id: idCounter++ };
         return o;
       });
