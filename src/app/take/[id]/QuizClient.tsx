@@ -11,6 +11,7 @@ export default function QuizClient({ quiz }: { quiz: any }) {
   const [markedForReview, setMarkedForReview] = useState<Record<number, boolean>>({});
   
   const [submitting, setSubmitting] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [timeUp, setTimeUp] = useState(false);
   const [globalTimeLeft, setGlobalTimeLeft] = useState<number | null>(quiz.timeLimit || null);
 
@@ -81,7 +82,11 @@ export default function QuizClient({ quiz }: { quiz: any }) {
   };
 
   const handleSubmit = async (autoSubmit = false) => {
-    if (!autoSubmit && !confirm("Are you sure you want to submit the test?")) return;
+    if (!autoSubmit && !showConfirmModal) {
+      setShowConfirmModal(true);
+      return;
+    }
+    setShowConfirmModal(false);
     setSubmitting(true);
     try {
       const res = await fetch(`/api/quizzes/${quiz.id}/submit`, {
@@ -695,6 +700,39 @@ export default function QuizClient({ quiz }: { quiz: any }) {
           </div>
         )}
       </div>
+
+      {showConfirmModal && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center',
+          background: 'rgba(15, 23, 42, 0.7)', backdropFilter: 'blur(8px)'
+        }}>
+          <div className="glass-panel" style={{ width: '90%', maxWidth: '400px', textAlign: 'center', padding: '2.5rem 2rem', animation: 'imageReveal 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}>
+            <div style={{ width: '60px', height: '60px', borderRadius: '50%', background: 'rgba(59, 130, 246, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem', color: '#3b82f6' }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>Submit Test?</h3>
+            <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', fontSize: '1rem', lineHeight: '1.5' }}>
+              Are you sure you want to submit? You have answered {Object.keys(answers).length} out of {quiz.questions.length} questions. You won't be able to change your answers after submission.
+            </p>
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+              <button 
+                onClick={() => setShowConfirmModal(false)}
+                className="btn-secondary"
+                style={{ flex: 1, padding: '0.75rem' }}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={() => handleSubmit(true)}
+                className="btn-primary"
+                style={{ flex: 1, padding: '0.75rem', background: '#3b82f6' }}
+              >
+                Yes, Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
