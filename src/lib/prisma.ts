@@ -186,6 +186,12 @@ export const prisma = {
       if (error) throw new Error("Record to update not found.");
       return data;
     },
+    delete: async (args: any) => {
+      if (!args.where?.id) throw new Error("No ID provided for delete");
+      const { data, error } = await supabase.from('quizzes').delete().eq('id', args.where.id).select().single();
+      if (error) throw new Error("Failed to delete quiz: " + error.message);
+      return data;
+    }
   },
   attempt: {
     findUnique: async (args: any) => {
