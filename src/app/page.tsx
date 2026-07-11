@@ -23,7 +23,7 @@ export default function Home() {
               Create engaging quizzes, challenge your friends, and track your progress in real-time. The ultimate platform for knowledge sharing.
             </p>
             
-            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            <div className="hero-buttons" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
               <Link href="/create" style={{ padding: '1rem 2rem', fontSize: '1.05rem', fontWeight: 600, background: 'linear-gradient(180deg, #ffffff 0%, #d4d4d8 100%)', color: '#09090b', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'inset 0 1px 0 #ffffff, 0 8px 25px rgba(255,255,255,0.15)', transition: 'all 0.2s ease' }}>
                 Create a Quiz
               </Link>
@@ -168,7 +168,7 @@ export default function Home() {
         <div className="timeline-grid" style={{ position: 'relative' }}>
           
           {/* Connecting Line (Only visible on larger screens via flex magic, but we simulate it with background grid lines) */}
-          <div style={{ position: 'absolute', top: '48px', left: '10%', right: '10%', height: '2px', background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%)', zIndex: -1 }}>
+          <div className="timeline-line" style={{ position: 'absolute', top: '48px', left: '10%', right: '10%', height: '2px', background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%)', zIndex: -1 }}>
             {/* Animated glowing dot moving across the line */}
             <div style={{ position: 'absolute', top: '-3px', left: '0', width: '8px', height: '8px', borderRadius: '50%', background: '#818cf8', boxShadow: '0 0 20px 4px rgba(129, 140, 248, 0.6)', animation: 'moveAcross 4s infinite linear' }}>
               <style>{`
