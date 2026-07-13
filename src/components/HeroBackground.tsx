@@ -17,7 +17,7 @@ export function HeroBackground() {
     canvas.height = height;
 
     let particles: { x: number, y: number, vx: number, vy: number, radius: number, color: string }[] = [];
-    const colors = ['rgba(129, 140, 248, 0.8)', 'rgba(192, 132, 252, 0.8)', 'rgba(56, 189, 248, 0.8)']; // Indigo, Purple, Sky Blue
+    const colors = ['rgba(231, 212, 187, 0.8)', 'rgba(133, 120, 97, 0.8)', 'rgba(72, 37, 47, 0.8)']; // Almond, Sandlewood, Plum
     
     // Calculate particle count based on screen size (prevent lag on big screens)
     const initParticles = () => {
@@ -84,7 +84,7 @@ export function HeroBackground() {
             ctx.lineTo(p2.x, p2.y);
             // Opacity based on distance
             const opacity = 1 - (dist / 150);
-            ctx.strokeStyle = `rgba(129, 140, 248, ${opacity * 0.2})`;
+            ctx.strokeStyle = `rgba(231, 212, 187, ${opacity * 0.2})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
@@ -100,7 +100,7 @@ export function HeroBackground() {
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(mouse.x, mouse.y);
           const opacity = 1 - (distMouse / 200);
-          ctx.strokeStyle = `rgba(192, 132, 252, ${opacity * 0.4})`;
+          ctx.strokeStyle = `rgba(133, 120, 97, ${opacity * 0.4})`;
           ctx.lineWidth = 1;
           ctx.stroke();
           
@@ -134,10 +134,10 @@ export function HeroBackground() {
   }, []);
 
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: -1, overflow: 'hidden', background: 'radial-gradient(ellipse at top, #0f172a 0%, #020617 100%)' }}>
+    <div style={{ position: 'fixed', inset: 0, zIndex: -1, overflow: 'hidden', background: 'radial-gradient(ellipse at top, #101211 0%, #1c0e12 100%)' }}>
       {/* Soft glowing ambient orbs in the background */}
-      <div style={{ position: 'absolute', top: '-10%', left: '-10%', width: '40%', height: '40%', background: 'radial-gradient(circle, rgba(79, 70, 229, 0.1) 0%, transparent 70%)', filter: 'blur(60px)' }}></div>
-      <div style={{ position: 'absolute', bottom: '-10%', right: '-10%', width: '50%', height: '50%', background: 'radial-gradient(circle, rgba(147, 51, 234, 0.08) 0%, transparent 70%)', filter: 'blur(80px)' }}></div>
+      <div style={{ position: 'absolute', top: '-10%', left: '-10%', width: '40%', height: '40%', background: 'radial-gradient(circle, rgba(133, 120, 97, 0.1) 0%, transparent 70%)', filter: 'blur(60px)' }}></div>
+      <div style={{ position: 'absolute', bottom: '-10%', right: '-10%', width: '50%', height: '50%', background: 'radial-gradient(circle, rgba(72, 37, 47, 0.08) 0%, transparent 70%)', filter: 'blur(80px)' }}></div>
       
       <canvas ref={canvasRef} style={{ width: '100%', height: '100%', pointerEvents: 'auto' }} />
     </div>

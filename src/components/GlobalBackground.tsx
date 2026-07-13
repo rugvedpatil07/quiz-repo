@@ -6,8 +6,10 @@ import { HeroBackground } from "./HeroBackground";
 export function GlobalBackground() {
   const pathname = usePathname();
   
-  // Do not show the background animation in the "game section" (take or results)
-  if (pathname.startsWith("/take") || pathname.startsWith("/results") || pathname.startsWith("/play")) {
+  const isHome = pathname === "/";
+  const isGame = pathname.startsWith("/play") || pathname.startsWith("/game") || pathname.startsWith("/take") || pathname.startsWith("/results");
+  
+  if (!isHome && !isGame) {
     return null;
   }
 
