@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { PremiumBackground } from "@/components/PremiumBackground";
+import { Providers } from "@/components/Providers";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -30,10 +31,12 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="light">
       <body className={`${playfair.variable} ${montserrat.variable}`}>
-        <PremiumBackground />
-        <Navbar />
-        {children}
-        <Footer />
+        <Providers>
+          <PremiumBackground />
+          <Navbar />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
