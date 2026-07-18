@@ -18,50 +18,58 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
+        try {
+          if (!credentials?.email || !credentials?.password) {
+            return null;
+          }
+
+          const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+          if (!emailRegex.test(credentials.email)) {
+            throw new Error("Invalid email format.");
+          }
+
+          const disposableDomains = ['tempmail.com', 'mailinator.com', '10minutemail.com', 'guerrillamail.com', 'yopmail.com', 'test.com', 'example.com', 'fake.com'];
+          const domain = credentials.email.split('@')[1]?.toLowerCase();
+          if (domain && disposableDomains.includes(domain)) {
+            throw new Error("Fake or disposable emails are not allowed.");
+          }
+
+          const normalizedEmail = credentials.email.toLowerCase();
+
+          const user = await prisma.user.findUnique({
+            where: {
+              email: normalizedEmail,
+            },
+          });
+
+          if (!user) {
+            return null;
+          }
+
+          const isPasswordValid = await bcrypt.compare(
+            credentials.password,
+            user.password
+          );
+
+          if (!isPasswordValid) {
+            throw new Error("Invalid email or password.");
+          }
+
+          return {
+            id: user.id.toString(),
+            email: user.email,
+            name: user.name,
+            image: user.image,
+            bio: user.bio,
+            role: user.role,
+          } as any;
+        } catch (err: any) {
+          // Re-throw user-facing errors, swallow infrastructure errors
+          const userErrors = ["Invalid email format", "Fake or disposable", "Invalid email or password"];
+          if (userErrors.some(msg => err?.message?.includes(msg))) throw err;
+          console.error("[NextAuth] Credentials authorize error:", err);
           return null;
         }
-
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!emailRegex.test(credentials.email)) {
-          throw new Error("Invalid email format.");
-        }
-
-        const disposableDomains = ['tempmail.com', 'mailinator.com', '10minutemail.com', 'guerrillamail.com', 'yopmail.com', 'test.com', 'example.com', 'fake.com'];
-        const domain = credentials.email.split('@')[1]?.toLowerCase();
-        if (domain && disposableDomains.includes(domain)) {
-          throw new Error("Fake or disposable emails are not allowed.");
-        }
-
-        const normalizedEmail = credentials.email.toLowerCase();
-
-        const user = await prisma.user.findUnique({
-          where: {
-            email: normalizedEmail,
-          },
-        });
-
-        if (!user) {
-          return null;
-        }
-
-        const isPasswordValid = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
-
-        if (!isPasswordValid) {
-          throw new Error("Invalid email or password.");
-        }
-
-        return {
-          id: user.id.toString(),
-          email: user.email,
-          name: user.name,
-          image: user.image,
-          bio: user.bio,
-          role: user.role,
-        } as any;
       },
     }),
     CredentialsProvider({
@@ -149,13 +157,5 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-const handler = (req: any, ctx: any) => {
-  const host = req.headers.get("host");
-  if (host && process.env.NODE_ENV !== "production") {
-    const protocol = host.includes("localhost") ? "http" : "http";
-    process.env.NEXTAUTH_URL = `${protocol}://${host}`;
-  }
-  return NextAuth(authOptions)(req, ctx);
-};
-
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

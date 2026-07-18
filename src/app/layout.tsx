@@ -1,34 +1,25 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import AuthProvider from "@/components/AuthProvider";
-import NavigationWrapper from "@/components/NavigationWrapper";
-import Footer from "@/components/Footer";
-import { GlobalBackground } from "@/components/GlobalBackground";
+import { Playfair_Display, Montserrat } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { PremiumBackground } from "@/components/PremiumBackground";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const playfair = Playfair_Display({
   subsets: ["latin"],
+  variable: "--font-playfair",
+  weight: ["400", "500", "600", "700", "800"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const montserrat = Montserrat({
   subsets: ["latin"],
+  variable: "--font-montserrat",
+  weight: ["300", "400", "500", "600", "700", "800"],
 });
-
-import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "QuizMaster",
-  description: "Create and join interactive quizzes live!",
-};
-
-import { Viewport } from "next";
-
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 1,
+  title: "QuizMaster - Premium Interactive Quizzes",
+  description: "Master any subject with interactive, multiplayer quizzes.",
 };
 
 export default function RootLayout({
@@ -37,32 +28,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`} suppressHydrationWarning>
-      <head>
-        <Script
-          id="theme-init"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                const storedTheme = localStorage.getItem('theme');
-                if (storedTheme) {
-                  document.documentElement.setAttribute('data-theme', storedTheme);
-                } else {
-                  document.documentElement.setAttribute('data-theme', 'dark');
-                }
-              } catch (e) {}
-            `,
-          }}
-        />
-      </head>
-      <body>
-        <AuthProvider>
-          <GlobalBackground />
-          <NavigationWrapper />
-          <main>{children}</main>
-          <Footer />
-        </AuthProvider>
+    <html lang="en" data-theme="light">
+      <body className={`${playfair.variable} ${montserrat.variable}`}>
+        <PremiumBackground />
+        <Navbar />
+        {children}
+        <Footer />
       </body>
     </html>
   );
