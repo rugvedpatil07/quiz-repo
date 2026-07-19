@@ -1,18 +1,8 @@
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
 
-export const dynamic = 'force-dynamic';
-
-export default async function Home() {
-  let quizCount = 200;
-  let userCount = 500;
-
-  try {
-    quizCount = await prisma.quiz.count();
-    userCount = await prisma.user.count();
-  } catch (e) {
-    // Use fallback values if DB is unavailable
-  }
+export default function Home() {
+  const quizCount = 200;
+  const userCount = 500;
 
 
   return (
