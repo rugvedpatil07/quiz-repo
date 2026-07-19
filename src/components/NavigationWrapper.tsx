@@ -16,12 +16,16 @@ export default function NavigationWrapper() {
   return (
     <>
       <Navbar />
-      <CategoryNav />
-      <div className="global-search-section">
-        <div className="container" style={{ display: 'flex', justifyContent: 'center' }}>
-          <SearchBar />
-        </div>
-      </div>
+      {pathname === "/" && (
+        <>
+          <CategoryNav />
+          <div className="global-search-section">
+            <div className="container" style={{ display: 'flex', justifyContent: 'center' }}>
+              <SearchBar />
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }
