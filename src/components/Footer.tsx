@@ -283,7 +283,7 @@ export default function Footer() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 <Link href="/terms" className="footer-link">Terms & Conditions</Link>
                 <Link href="/privacy" className="footer-link">Privacy Policy</Link>
-                <Link href="/risk" className="footer-link">Risk & Benefits</Link>
+                <Link href="/security" className="footer-link">Security & Trust</Link>
               </div>
             </div>
 
