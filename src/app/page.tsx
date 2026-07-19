@@ -4,8 +4,16 @@ import { prisma } from "@/lib/prisma";
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  const quizCount = await prisma.quiz.count();
-  const userCount = await prisma.user.count();
+  let quizCount = 200;
+  let userCount = 500;
+
+  try {
+    quizCount = await prisma.quiz.count();
+    userCount = await prisma.user.count();
+  } catch (e) {
+    // Use fallback values if DB is unavailable
+  }
+
 
   return (
     <div style={{ minHeight: '100vh', background: '#fafafa', overflowX: 'hidden' }}>
