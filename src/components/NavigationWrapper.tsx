@@ -16,7 +16,7 @@ export default function NavigationWrapper() {
   return (
     <>
       <Navbar />
-      {pathname === "/" && (
+      {pathname !== "/" && pathname !== "" && (
         <>
           <CategoryNav />
           <div className="global-search-section">
