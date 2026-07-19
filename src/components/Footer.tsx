@@ -1,174 +1,321 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Footer() {
+  const [email, setEmail] = useState("");
+
   return (
-    <footer style={{ width: '100%', position: 'relative', zIndex: 10, paddingBottom: '24px' }}>
-      
-      {/* Top CTA Section */}
-      <div style={{ textAlign: 'center', padding: '80px 20px 60px', color: '#000' }}>
-        <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 500, letterSpacing: '-0.03em', marginBottom: '16px', lineHeight: 1.1 }}>
-          Ready to Take Control<br/>of Your Learning?
-        </h2>
-        <p style={{ color: '#555', fontSize: '0.95rem', marginBottom: '32px', maxWidth: '480px', margin: '0 auto 32px' }}>
-          Get expert interactive quizzes for knowledge building, test prep, and more — all from the comfort of home, no setup needed.
-        </p>
-        <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
-          <Link 
-            href="/create" 
-            style={{ 
-              background: '#2563eb', // Nice bright blue matching reference
-              color: '#fff', 
-              padding: '12px 28px', 
-              borderRadius: '9999px', 
-              fontWeight: 500, 
-              fontSize: '0.95rem', 
+    <footer style={{
+      width: '100%',
+      position: 'relative',
+      zIndex: 10,
+      padding: '0 24px 32px',
+      fontFamily: "'Inter', 'Plus Jakarta Sans', sans-serif",
+    }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        .footer-glass {
+          background: linear-gradient(135deg, rgba(20, 10, 30, 0.95) 0%, rgba(60, 20, 40, 0.92) 50%, rgba(25, 10, 35, 0.95) 100%);
+          backdrop-filter: blur(40px);
+          -webkit-backdrop-filter: blur(40px);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 28px;
+          overflow: hidden;
+          box-shadow: 0 40px 80px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+          position: relative;
+        }
+        .footer-glass::before {
+          content: '';
+          position: absolute;
+          top: -50%;
+          left: -20%;
+          width: 500px;
+          height: 500px;
+          background: radial-gradient(circle, rgba(180, 40, 80, 0.18) 0%, transparent 70%);
+          pointer-events: none;
+        }
+        .footer-glass::after {
+          content: '';
+          position: absolute;
+          bottom: -30%;
+          right: -10%;
+          width: 400px;
+          height: 400px;
+          background: radial-gradient(circle, rgba(80, 20, 120, 0.15) 0%, transparent 70%);
+          pointer-events: none;
+        }
+        .footer-link {
+          font-size: 13px;
+          color: rgba(255,255,255,0.5);
+          text-decoration: none;
+          font-weight: 400;
+          transition: color 0.2s ease;
+          letter-spacing: 0.01em;
+          line-height: 1.4;
+        }
+        .footer-link:hover {
+          color: rgba(255,255,255,0.95) !important;
+        }
+        .footer-col-title {
+          font-size: 11px;
+          font-weight: 600;
+          color: rgba(255,255,255,0.35);
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          margin-bottom: 20px;
+        }
+        .footer-email-input {
+          background: rgba(255,255,255,0.06);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 9999px;
+          padding: 12px 20px;
+          font-size: 13px;
+          color: white;
+          outline: none;
+          width: 100%;
+          transition: border-color 0.2s, background 0.2s;
+          font-family: 'Inter', sans-serif;
+        }
+        .footer-email-input::placeholder {
+          color: rgba(255,255,255,0.3);
+        }
+        .footer-email-input:focus {
+          border-color: rgba(255,255,255,0.25);
+          background: rgba(255,255,255,0.1);
+        }
+        .footer-submit-btn {
+          background: white;
+          color: #1a1a1a;
+          border: none;
+          border-radius: 9999px;
+          padding: 12px 28px;
+          font-size: 13px;
+          font-weight: 700;
+          cursor: pointer;
+          white-space: nowrap;
+          transition: all 0.2s ease;
+          font-family: 'Inter', sans-serif;
+          letter-spacing: 0.01em;
+        }
+        .footer-submit-btn:hover {
+          background: rgba(255,255,255,0.9);
+          transform: translateY(-1px);
+          box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .footer-divider {
+          height: 1px;
+          background: rgba(255,255,255,0.07);
+          margin: 0 40px;
+        }
+        .admin-link {
+          font-size: 12px;
+          color: rgba(255,255,255,0.2);
+          text-decoration: none;
+          font-weight: 500;
+          transition: color 0.2s;
+        }
+        .admin-link:hover {
+          color: rgba(255,255,255,0.6) !important;
+        }
+      `}</style>
+
+      <div className="footer-glass">
+
+        {/* Top CTA Section */}
+        <div style={{
+          textAlign: 'center',
+          padding: '72px 40px 60px',
+          position: 'relative',
+          zIndex: 2
+        }}>
+          <h2 style={{
+            fontSize: 'clamp(2.2rem, 5vw, 3.8rem)',
+            fontWeight: 800,
+            color: 'white',
+            letterSpacing: '-0.04em',
+            marginBottom: '36px',
+            lineHeight: 1.05,
+            fontFamily: "'Inter', sans-serif",
+          }}>
+            Ready to Take Control<br/>
+            <span style={{ color: 'rgba(255,255,255,0.6)', fontWeight: 300, fontStyle: 'italic' }}>of Your Learning?</span>
+          </h2>
+
+          {/* Email CTA */}
+          <div style={{
+            display: 'flex',
+            gap: '10px',
+            maxWidth: '480px',
+            margin: '0 auto 28px',
+            background: 'rgba(255,255,255,0.05)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: '9999px',
+            padding: '6px 6px 6px 20px',
+          }}>
+            <input
+              type="email"
+              placeholder="Enter your email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                outline: 'none',
+                flex: 1,
+                fontSize: '14px',
+                color: 'white',
+                fontFamily: "'Inter', sans-serif",
+              }}
+            />
+            <button className="footer-submit-btn">
+              Get Started →
+            </button>
+          </div>
+
+          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
+            <Link href="/create" style={{
+              background: 'rgba(255,255,255,0.1)',
+              color: 'rgba(255,255,255,0.8)',
+              padding: '10px 24px',
+              borderRadius: '9999px',
+              fontWeight: 500,
+              fontSize: '13px',
               textDecoration: 'none',
-              boxShadow: '0 4px 14px rgba(37, 99, 235, 0.3)',
-              transition: 'transform 0.2s'
+              border: '1px solid rgba(255,255,255,0.12)',
+              transition: 'all 0.2s ease',
             }}
-          >
-            Start Now
-          </Link>
-          <Link 
-            href="/contact" 
-            style={{ 
-              background: '#ffffff', 
-              color: '#000', 
-              padding: '12px 28px', 
-              borderRadius: '9999px', 
-              fontWeight: 500, 
-              fontSize: '0.95rem', 
-              textDecoration: 'none', 
-              boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
-              transition: 'transform 0.2s'
+              onMouseOver={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.18)'; }}
+              onMouseOut={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.1)'; }}
+            >
+              Create a Quiz
+            </Link>
+            <Link href="/contact" style={{
+              background: 'rgba(255,255,255,0.1)',
+              color: 'rgba(255,255,255,0.8)',
+              padding: '10px 24px',
+              borderRadius: '9999px',
+              fontWeight: 500,
+              fontSize: '13px',
+              textDecoration: 'none',
+              border: '1px solid rgba(255,255,255,0.12)',
+              transition: 'all 0.2s ease',
             }}
-          >
-            Contact Us
-          </Link>
+              onMouseOver={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.18)'; }}
+              onMouseOut={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.1)'; }}
+            >
+              Contact Us
+            </Link>
+          </div>
         </div>
-      </div>
 
-      {/* Footer Card */}
-      <div style={{ 
-        background: 'rgba(255, 255, 255, 0.85)', 
-        backdropFilter: 'blur(20px)',
-        borderRadius: '32px', 
-        padding: '60px 50px 30px',
-        margin: '0 auto',
-        maxWidth: 'calc(100% - 48px)',
-        boxShadow: '0 10px 40px rgba(0,0,0,0.03)',
-        border: '1px solid rgba(255,255,255,0.7)'
-      }}>
-        
-        <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '60px' }}>
-           
-           {/* Left Column: Logo + Email Input */}
-           <div style={{ flex: '1 1 320px', maxWidth: '380px' }}>
-             <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', marginBottom: '32px' }}>
-               <div style={{ width: '28px', height: '28px', background: '#000', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                 <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M12 2L2 22h20L12 2z"/></svg>
-               </div>
-               <span style={{ fontSize: '1.4rem', fontWeight: 700, color: '#000', letterSpacing: '-0.02em' }}>QuizMaster</span>
-             </Link>
-             
-             <p style={{ fontSize: '0.9rem', fontWeight: 600, color: '#000', marginBottom: '16px' }}>Sign up to receive learning tips.</p>
-             
-             <div style={{ 
-                display: 'flex', 
-                background: '#ffffff', 
-                borderRadius: '9999px', 
-                padding: '6px', 
-                border: '1px solid rgba(0,0,0,0.08)', 
-                boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)',
-                marginBottom: '16px' 
+        <div className="footer-divider" />
+
+        {/* Main Links Grid */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '40px',
+          padding: '48px 40px',
+          position: 'relative',
+          zIndex: 2,
+        }}>
+
+          {/* Brand Column */}
+          <div style={{ flex: '1 1 220px', maxWidth: '260px' }}>
+            <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', marginBottom: '24px' }}>
+              <div style={{
+                width: '32px', height: '32px', borderRadius: '50%', overflow: 'hidden',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                border: '1.5px solid rgba(255,255,255,0.15)'
               }}>
-               <input 
-                  type="email" 
-                  placeholder="Enter your email" 
-                  style={{ flex: 1, background: 'transparent', border: 'none', padding: '8px 16px', fontSize: '0.85rem', outline: 'none' }} 
-               />
-               <button style={{ 
-                  background: '#0f172a', 
-                  color: '#fff', 
-                  border: 'none', 
-                  borderRadius: '9999px', 
-                  padding: '8px 24px', 
-                  fontWeight: 500, 
-                  fontSize: '0.85rem',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 10px rgba(15, 23, 42, 0.3)'
-                }}>
-                  Submit
-                </button>
-             </div>
-             
-             <p style={{ fontSize: '0.75rem', color: '#64748b', lineHeight: 1.6 }}>
-               By subscribing you agree to with our Privacy Policy and provide consent to receive updates from our company.
-             </p>
-           </div>
-           
-           {/* Right Columns: Links */}
-           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '60px' }}>
-             
-             {/* Column 1 */}
-             <div>
-               <h4 style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: '24px', fontWeight: 500 }}>Explore</h4>
-               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                 <Link href="/quizzes" style={{ fontSize: '0.85rem', color: '#0f172a', textDecoration: 'none', fontWeight: 500 }}>Browse Quizzes</Link>
-                 <Link href="/create" style={{ fontSize: '0.85rem', color: '#0f172a', textDecoration: 'none', fontWeight: 500 }}>Create a Quiz</Link>
-                 <Link href="/leaderboard" style={{ fontSize: '0.85rem', color: '#0f172a', textDecoration: 'none', fontWeight: 500 }}>Leaderboard</Link>
-                 <Link href="/categories" style={{ fontSize: '0.85rem', color: '#0f172a', textDecoration: 'none', fontWeight: 500 }}>Categories</Link>
-               </div>
-             </div>
-             
-             {/* Column 2 */}
-             <div>
-               <h4 style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: '24px', fontWeight: 500 }}>Learn</h4>
-               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                 <Link href="/blogs" style={{ fontSize: '0.85rem', color: '#0f172a', textDecoration: 'none', fontWeight: 500 }}>Blogs</Link>
-                 <Link href="/research" style={{ fontSize: '0.85rem', color: '#0f172a', textDecoration: 'none', fontWeight: 500 }}>Research & Education</Link>
-                 <Link href="/certifications" style={{ fontSize: '0.85rem', color: '#0f172a', textDecoration: 'none', fontWeight: 500 }}>Certifications</Link>
-               </div>
-             </div>
-             
-             {/* Column 3 */}
-             <div>
-               <h4 style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: '24px', fontWeight: 500 }}>Support</h4>
-               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                 <Link href="/help" style={{ fontSize: '0.85rem', color: '#0f172a', textDecoration: 'none', fontWeight: 500 }}>Help Center</Link>
-                 <Link href="/faq" style={{ fontSize: '0.85rem', color: '#0f172a', textDecoration: 'none', fontWeight: 500 }}>FAQ's</Link>
-                 <Link href="/contact" style={{ fontSize: '0.85rem', color: '#0f172a', textDecoration: 'none', fontWeight: 500 }}>Contact Us</Link>
-               </div>
-             </div>
+                <img src="/quiz_logo.png" alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
+              <span style={{
+                fontSize: '18px', fontWeight: 800, color: 'white',
+                letterSpacing: '-0.02em', fontFamily: "'Inter', sans-serif"
+              }}>QuizMaster</span>
+            </Link>
+            <p style={{
+              fontSize: '13px', color: 'rgba(255,255,255,0.4)',
+              lineHeight: 1.7, fontWeight: 400, maxWidth: '200px'
+            }}>
+              The premium platform for interactive learning, quizzes & knowledge competitions.
+            </p>
+          </div>
 
-             {/* Column 4 */}
-             <div>
-               <h4 style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: '24px', fontWeight: 500 }}>Legal</h4>
-               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                 <Link href="/terms" style={{ fontSize: '0.85rem', color: '#0f172a', textDecoration: 'none', fontWeight: 500 }}>Terms & Conditions</Link>
-                 <Link href="/privacy" style={{ fontSize: '0.85rem', color: '#0f172a', textDecoration: 'none', fontWeight: 500 }}>Privacy Policy</Link>
-                 <Link href="/risk" style={{ fontSize: '0.85rem', color: '#0f172a', textDecoration: 'none', fontWeight: 500 }}>Risk & Benefits</Link>
-               </div>
-             </div>
+          {/* Link Columns */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '48px', flex: '2 1 400px' }}>
 
-           </div>
+            <div>
+              <p className="footer-col-title">Explore</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                <Link href="/quizzes" className="footer-link">Browse Quizzes</Link>
+                <Link href="/create" className="footer-link">Create a Quiz</Link>
+                <Link href="/leaderboard" className="footer-link">Leaderboard</Link>
+                <Link href="/categories" className="footer-link">Categories</Link>
+              </div>
+            </div>
+
+            <div>
+              <p className="footer-col-title">Learn</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                <Link href="/blogs" className="footer-link">Blogs</Link>
+                <Link href="/research" className="footer-link">Research & Education</Link>
+                <Link href="/certifications" className="footer-link">Certifications</Link>
+              </div>
+            </div>
+
+            <div>
+              <p className="footer-col-title">Support</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                <Link href="/help" className="footer-link">Help Center</Link>
+                <Link href="/faq" className="footer-link">FAQ&apos;s</Link>
+                <Link href="/contact" className="footer-link">Contact Us</Link>
+              </div>
+            </div>
+
+            <div>
+              <p className="footer-col-title">Legal</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                <Link href="/terms" className="footer-link">Terms & Conditions</Link>
+                <Link href="/privacy" className="footer-link">Privacy Policy</Link>
+                <Link href="/risk" className="footer-link">Risk & Benefits</Link>
+              </div>
+            </div>
+
+          </div>
         </div>
-        
-        <div style={{ marginTop: '60px', paddingTop: '30px', borderTop: '1px solid rgba(0,0,0,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
-          <p style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 500 }}>
-            © {new Date().getFullYear()} QuizMaster, All rights reserved.
+
+        <div className="footer-divider" />
+
+        {/* Bottom Bar */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '24px 40px',
+          position: 'relative',
+          zIndex: 2,
+          flexWrap: 'wrap',
+          gap: '12px'
+        }}>
+          <p style={{
+            fontSize: '12px',
+            color: 'rgba(255,255,255,0.25)',
+            fontWeight: 400,
+            letterSpacing: '0.01em'
+          }}>
+            © {new Date().getFullYear()} QuizMaster. All rights reserved.
           </p>
-          <Link 
-            href="/admin" 
-            style={{ fontSize: '0.75rem', color: '#94a3b8', textDecoration: 'none', fontWeight: 500, transition: 'color 0.2s' }}
-            onMouseOver={(e) => e.currentTarget.style.color = '#0f172a'}
-            onMouseOut={(e) => e.currentTarget.style.color = '#94a3b8'}
-          >
+          <Link href="/admin" className="admin-link">
             Admin Portal
           </Link>
         </div>
+
       </div>
     </footer>
   );
