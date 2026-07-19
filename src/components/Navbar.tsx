@@ -39,18 +39,15 @@ export default function Navbar() {
       }}>
         <Link href="/" onClick={() => setMobileMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
           <div style={{
-            background: 'black',
-            color: 'white',
             width: '40px',
             height: '40px',
             borderRadius: '50%',
+            overflow: 'hidden',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2C12 7.52 16.48 12 22 12C16.48 12 12 16.48 12 22C12 16.48 7.52 12 2 12C7.52 12 12 7.52 12 2Z" />
-            </svg>
+            <img src="/quiz_logo.png" alt="Quiz Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
         </Link>
 
