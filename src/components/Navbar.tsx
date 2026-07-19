@@ -47,20 +47,18 @@ export default function Navbar() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontWeight: 'bold',
-            fontSize: '20px'
           }}>
-            ✦
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C12 7.52 16.48 12 22 12C16.48 12 12 16.48 12 22C12 16.48 7.52 12 2 12C7.52 12 12 7.52 12 2Z" />
+            </svg>
           </div>
         </Link>
 
         <nav style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
           <Link href="/" style={{ color: pathname === '/' ? '#000' : '#666', fontSize: '15px', fontWeight: pathname === '/' ? 600 : 500, textDecoration: 'none', transition: 'color 0.2s' }}>Home</Link>
+          <Link href="/quizzes" style={{ color: pathname === '/quizzes' ? '#000' : '#666', fontSize: '15px', fontWeight: pathname === '/quizzes' ? 600 : 500, textDecoration: 'none', transition: 'color 0.2s' }}>Quizzes</Link>
           {session && (
-            <>
-              <Link href="/dashboard" style={{ color: pathname === '/dashboard' ? '#000' : '#666', fontSize: '15px', fontWeight: pathname === '/dashboard' ? 600 : 500, textDecoration: 'none', transition: 'color 0.2s' }}>Dashboard</Link>
-              <Link href="/quizzes" style={{ color: pathname === '/quizzes' ? '#000' : '#666', fontSize: '15px', fontWeight: pathname === '/quizzes' ? 600 : 500, textDecoration: 'none', transition: 'color 0.2s' }}>Quizzes</Link>
-            </>
+            <Link href="/dashboard" style={{ color: pathname === '/dashboard' ? '#000' : '#666', fontSize: '15px', fontWeight: pathname === '/dashboard' ? 600 : 500, textDecoration: 'none', transition: 'color 0.2s' }}>Dashboard</Link>
           )}
           <Link href="/play" style={{ color: pathname === '/play' ? '#000' : '#666', fontSize: '15px', fontWeight: pathname === '/play' ? 600 : 500, textDecoration: 'none', transition: 'color 0.2s' }}>Play</Link>
           <Link href="/leaderboard" style={{ color: pathname === '/leaderboard' ? '#000' : '#666', fontSize: '15px', fontWeight: pathname === '/leaderboard' ? 600 : 500, textDecoration: 'none', transition: 'color 0.2s' }}>Rankings</Link>
