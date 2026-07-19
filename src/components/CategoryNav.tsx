@@ -148,7 +148,7 @@ export default function CategoryNav() {
               {navItems.find(i => i.label === activeDropdown)?.subItems?.map((sub, idx) => (
                 <Link 
                   key={idx} 
-                  href={`/quizzes?category=${encodeURIComponent(activeDropdown)}&subcategory=${encodeURIComponent(sub)}`} 
+                  href={`/quizzes?category=${encodeURIComponent(activeDropdown || '')}&subcategory=${encodeURIComponent(sub)}`} 
                   style={{
                       background: '#fff',
                       border: '1px solid rgba(0,0,0,0.06)',
