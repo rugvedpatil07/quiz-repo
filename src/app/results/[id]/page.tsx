@@ -89,7 +89,7 @@ export default async function QuizResults({ params }: { params: Promise<{ id: st
                 </h4>
                 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  {q.options.map((opt: any) => {
+                  {q.options.map((opt: any, optIdx: number) => {
                     const isSelected = selectedOptionId === opt.id;
                     const isActualCorrect = opt.isCorrect;
                     
@@ -108,7 +108,7 @@ export default async function QuizResults({ params }: { params: Promise<{ id: st
                     }
 
                     return (
-                      <div key={opt.id} style={{ 
+                      <div key={opt.id || optIdx} style={{ 
                         padding: '0.75rem 1rem', 
                         borderRadius: '8px', 
                         backgroundColor: bg, 
